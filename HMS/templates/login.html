@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %} demo {% endblock%}
+{% block body %}
+    {% for doctor in doctors %}
+        <h1> {{doctor.id}} </h1>
+            <p> Name : {{doctor.name}} </p>
+            <p> Age : {{doctor.experience}} </p>
+    {% endfor %}
+{% endblock %}

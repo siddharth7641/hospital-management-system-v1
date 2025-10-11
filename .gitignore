@@ -1,0 +1,7 @@
+/venv/
+/seed.py
+/migrations/
+
+# /HMS/__pycache__/
+# /HMS/instance/
+# /HMS/migrations/
