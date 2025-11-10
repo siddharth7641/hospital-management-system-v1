@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{{ patient.fname }} {{ patient.lname }} - Profile{% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+
+                    <a href="{{ url_for(role+'.dashboard') }}" class="btn btn-outline-secondary mb-3">
+                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                    </a>
+
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="https://placehold.co/250" 
+                                 class="img-fluid rounded-circle shadow-sm" 
+                                 alt=" {{ patient.fname }} {{ patient.lname }}">
+                            
+
+                            <hr class="d-md-none"> <h5 class="mt-4">Contact Info</h5>
+                            <ul class="list-group list-group-flush text-start">
+                                <li class="list-group-item">
+                                    <i class="bi bi-envelope-fill text-primary"></i>
+                                    {{ patient.email }}
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-telephone-fill text-primary"></i>
+                                    {{ patient.phone }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-8">
+                            <h1 class="display-5 mb-0">
+                                {{ patient.fname }} {{ patient.lname }}
+                            </h1>
+                            <p class="h3 text-primary fw-light mb-3">
+                                {{ patient.age }}, {{ patient.gender }}
+                            </p>
+                            
+                            <hr>
+                            
+                            <h4 class="mt-4">Patient History</h4>
+                            <p class="lead">
+                                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Visit No.</th>
+                                <th>Visit Type</th>
+                                <th>Tests Done</th>
+                                <th>Diagnosis</th>
+                                <th>Prescription</th>
+                                <th>Medicines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in details %}
+                            <tr>
+                                <td>{{ loop.index }}.</td>
+                                <td>{{ record.visit_type }}</td>
+                                <td>{{ record.tests_done }}</td>
+                                <td>{{ record.diagnosis }}</td>
+                                <td>{{ record.prescription }}</td>
+                                <td>{{ record.medicines }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                            </p>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

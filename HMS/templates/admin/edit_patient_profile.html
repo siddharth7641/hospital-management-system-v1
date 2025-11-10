@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Patient Profile{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="card-title text-center mb-4">Update {{patient.fname}}'s Profile</h2>
+                    <div class="position-absolute top-0 end-0 mt-3 me-3">
+                        <a href="{{ url_for(role+'.dashboard') }}" class="btn btn-primary">Back</a>
+                    </div>
+                    <form method="POST" action="" novalidate>
+                        {{ form.hidden_tag() }} 
+                        <div class="mb-3">
+                            {{ form.fname.label(class="form-label") }}
+                            {% if form.fname.errors %}
+                                {{ form.fname(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.fname.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.fname(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.lname.label(class="form-label") }}
+                            {% if form.lname.errors %}
+                                {{ form.lname(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.lname.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.lname(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.phone.label(class="form-label") }}
+                            {% if form.phone.errors %}
+                                {{ form.phone(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.phone.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.phone(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.age.label(class="form-label") }}
+                            {% if form.age.errors %}
+                                {{ form.age(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.age.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.age(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.gender.label(class="form-label d-block") }}
+                            {% for subfield in form.gender %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    {{ subfield.label(class="form-check-label") }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

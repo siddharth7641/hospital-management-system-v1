@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <h2 class="h4 text-center mb-4">Book Appointment</h2>
+                    <p class="text-center text-muted">
+                        Select an available slot for Dr. {{ doctor.fname }} {{ doctor.lname }}.
+                    </p>
+
+                    <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }} 
+                        <div class="d-grid gap-2">
+                        
+                            {% if form.slot.choices %}
+                                {% for subfield in form.slot %}
+                                    {{ subfield(class="btn-check", id=subfield.id) }} 
+                                    
+                                    <label class="btn btn-outline-success" for="{{ subfield.id }}">
+                                        {{ subfield.label.text }}
+                                    </label>
+                                {% endfor %}
+                            {% else %}
+                                <p class="alert alert-warning">
+                                    This doctor has no available slots in the next 7 days.
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        {% if form.slot.errors %}
+                            <div class="alert alert-danger mt-3">
+                                {% for error in form.slot.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="d-grid mt-4">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

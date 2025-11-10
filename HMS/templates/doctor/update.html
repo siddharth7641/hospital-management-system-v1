@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Update Appointment Details{% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="h4 mb-0">Update Patient History</h2>
+                        <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-outline-secondary">Back</a>
+                    </div>
+                    
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <p class="mb-1"><strong>Patient:</strong> {{ appointment.patient.fname }} {{ appointment.patient.lname }}</p>
+                        <p class="mb-0"><strong>Appointment:</strong> {{ appointment.date.strftime('%Y-%m-%d') }} at {{ appointment.time.strftime('%I:%M %p') }}</p>
+                    </div>
+
+                    <form method="POST" action="" novalidate>
+                        {{ form.hidden_tag() }} <div class="mb-3">
+                            {{ form.visit_type.label(class="form-label") }}
+                            {% if form.visit_type.errors %}
+                                {{ form.visit_type(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.visit_type.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.visit_type(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.test_done.label(class="form-label") }}
+                            {% if form.test_done.errors %}
+                                {{ form.test_done(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.test_done.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.test_done(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.diagnosis.label(class="form-label") }}
+                            {% if form.diagnosis.errors %}
+                                {{ form.diagnosis(class="form-control is-invalid", rows="3") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.diagnosis.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.diagnosis(class="form-control", rows="3") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.medicines.label(class="form-label") }}
+                            {% if form.medicines.errors %}
+                                {{ form.medicines(class="form-control is-invalid", rows="3") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.medicines.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                G                               </div>
+                            {% else %}
+                                {{ form.medicines(class="form-control", rows="3") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.prescription.label(class="form-label") }}
+                            {% if form.prescription.errors %}
+                                {{ form.prescription(class="form-control is-invalid", rows="3") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.prescription.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.prescription(class="form-control", rows="3") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            {{ form.submit(class="btn btn-success") }}
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

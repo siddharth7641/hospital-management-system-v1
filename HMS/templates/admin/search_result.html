@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="col-lg-10 mx-auto">
+        <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h3 mb-0">Search Results for "{{ value }}"</h2>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+
+            <div class="card border-light-subtle shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 pt-4 d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">Registered Doctors</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for doctor in doctors %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-1">
+                                    <span>{{doctor.id}}</span>
+                                    <span>Dr. {{ doctor.fname }} {{ doctor.lname }}</span>
+                                    <div>
+                                        <a href="{{ url_for('admin.update_doctor', doctor_id=doctor.id) }}" class="btn btn-warning ">Edit</a>
+                                        <a class="btn btn-danger" href="{{ url_for('admin.delete', id=doctor.id, role='doctor') }}">Delete</a>
+                                        <a class="btn btn-secondary" href="{{ url_for('admin.blacklist', id=doctor.id, role='doctor') }}">Blacklist</a>
+                                        <a class="btn btn-info" href="{{ url_for('admin.details', id=doctor.id, role='doctor') }}">View</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            </div>
+
+            <div class="card border-light-subtle shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h3 class="h5 mb-0">Registered Patients</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for patient in patients %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-1">
+                                    <span>{{patient.id}}</span>
+                                    {% if patient.gender == 'Male' or patient.gender == 'male' %}
+                                        <span>Mr. {{ patient.fname }} {{ patient.lname }}</span>
+                                    {% elif patient.gender == 'Female' or patient.gender == 'female' %}
+                                        <span>Ms. {{ patient.fname }} {{ patient.lname }}</span>
+                                    {% else %}
+                                        <span>{{ patient.fname }} {{ patient.lname }}</span>
+                                    {% endif %}
+                                    <div>
+                                        <a href="{{ url_for('admin.update_patient', patient_id=patient.id) }}" class="btn btn-warning ">Edit</a>
+                                        <a class="btn btn-danger" href="{{ url_for('admin.delete', id=patient.id, role="patient")}}">Delete</a>
+                                        <a class="btn btn-secondary" href="{{ url_for('admin.blacklist', id=patient.id, role="patient") }}">Blacklist</a>
+                                        <a class="btn btn-info" href="{{ url_for('admin.details', id=patient.id, role="patient") }}">View</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

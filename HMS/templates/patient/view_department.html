@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Department - {{ department.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">{{ department.name }}</h1>  
+                        <nav class="nav">
+                            <a class="nav-link" href="{{ url_for('patient.view_history', patient_id=current_user.id) }}">History</a>
+                            <a class="nav-link text-danger" href="{{ url_for('patient.dashboard') }}">Back</a>
+                        </nav>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <section class="mb-5">
+                        <h2 class="h4">Overview</h2>
+                        <p class="text-secondary">
+                            {{ department.description | default('No description available for this department.') }}
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 class="h4">Doctors' list</h2>
+                        
+                        <ul class="list-group">
+                            
+                            {% for doctor in doctors %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                
+                                <span class="h5 mb-0">
+                                    Dr. {{ doctor.fname }} {{ doctor.lname }}
+                                </span>
+                                
+                                <div>
+                                    <a href="{{ url_for('patient.book_appointment', doctor_id=doctor.id) }}" 
+                                       class="btn btn-primary">
+                                        Check Availability
+                                    </a>
+                                    <a href="{{ url_for('patient.view_doctor', id=doctor.id) }}" 
+                                       class="btn btn-outline-primary ms-2">
+                                        View Details
+                                    </a>
+                                </div>
+
+                            </li>
+                            {% else %}
+                            <li class="list-group-item text-muted">
+                                No doctors are currently listed for this department.
+                            </li>
+                            {% endfor %}
+                            </ul>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

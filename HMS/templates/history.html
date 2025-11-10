@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Patient History{% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 position-relative">
+                
+                <div class="position-absolute top-0 end-0 mt-3 me-3">
+                    <a href="{{ url_for(role + '.dashboard') }}" class="btn btn-primary">Back</a>
+                </div>
+
+                <h1 class="h3 mb-4">Patient History</h1>
+                {% if appointment %}
+                    <div class="mb-4">
+                        <p class="mb-1"><strong>Patient Name:</strong> {{appointment.patient.fname}} {{appointment.patient.lname}}</p>
+                        <p class="mb-1"><strong>Doctor's Name:</strong> Dr. {{appointment.doctor.fname}} {{appointment.doctor.lname}}</p>
+                        <p class="mb-1"><strong>Department:</strong> {{appointment.doctor.specialization.name}}</p>
+                    </div>
+                {% endif %}
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Visit No.</th>
+                                <th>Visit Type</th>
+                                <th>Tests Done</th>
+                                <th>Diagnosis</th>
+                                <th>Prescription</th>
+                                <th>Medicines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in details %}
+                            <tr>
+                                <td>{{ loop.index }}.</td>
+                                <td>{{ record.visit_type }}</td>
+                                <td>{{ record.tests_done }}</td>
+                                <td>{{ record.diagnosis }}</td>
+                                <td>{{ record.prescription }}</td>
+                                <td>{{ record.medicines }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

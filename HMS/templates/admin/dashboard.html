@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            
+            <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h3 mb-0">Admin Dashboard</h2>
+                    
+                    {% if current_user.is_authenticated %}
+                        <a class="btn btn-danger" href="{{ url_for('admin.logout') }}">Logout</a>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded">
+                    
+                    <h3 class="h5 mb-0">Welcome Admin</h3>
+
+                    <form method="POST" action="{{ url_for('admin.search') }}" class="w-50" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="input-group">
+                            
+                            {{ form.value.label(class="visually-hidden") }} 
+
+                            {% if form.value.errors %}
+                                {{ form.value(class="form-control is-invalid", placeholder="Search...") }}
+                            {% else %}
+                                {{ form.value(class="form-control", placeholder="Search doctor, patient, department...") }}
+                            {% endif %}
+                            
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                        
+                        {% if form.value.errors %}
+                            <div class="invalid-feedback d-block"> {% for error in form.value.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </form>
+                </div>
+
+                
+
+
+                <div class="card border-light-subtle shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 pt-4 d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">Registered Doctors</h3>
+                        <h4 class="h5 mb-0">Total Doctors: {{ doctors|length }}</h4>
+                        <a class="btn btn-success" href="{{ url_for('admin.register_doctor') }}">Register Doctor</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for doctor in doctors %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-1">
+                                    <span>Dr. {{ doctor.fname }} {{ doctor.lname }}</span>
+                                    <div>
+                                        <a href="{{ url_for('admin.update_doctor', doctor_id=doctor.id) }}" class="btn btn-warning ">Edit</a>
+                                        <a class="btn btn-danger" href="{{ url_for('admin.delete', id=doctor.id, role='doctor') }}">Delete</a>
+                                        {% if doctor.blacklisted %}
+                                            <a class="btn btn-secondary" href="{{ url_for('admin.blacklist', id=doctor.id, role='doctor') }}">Blacklisted</a>
+                                        {% else %}
+                                            <a class="btn btn-primary" href="{{ url_for('admin.blacklist', id=doctor.id, role='doctor') }}">Blacklist</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card border-light-subtle shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 pt-4 d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">Registered Patients</h3>
+                        <h4 class="h5 mb-0">Total Patients: {{ patients|length }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for patient in patients %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-1">
+                                    {% if patient.gender == 'Male' or patient.gender == 'male' %}
+                                        <span>Mr. {{ patient.fname }} {{ patient.lname }}</span>
+                                    {% elif patient.gender == 'Female' or patient.gender == 'female' %}
+                                        <span>Ms. {{ patient.fname }} {{ patient.lname }}</span>
+                                    {% else %}
+                                        <span>{{ patient.fname }} {{ patient.lname }}</span>
+                                    {% endif %}
+                                    <div>
+                                        <a href="{{ url_for('admin.update_patient', patient_id=patient.id) }}" class="btn btn-warning ">Edit</a>
+                                        <a class="btn btn-danger" href="{{ url_for('admin.delete', id=patient.id, role="patient")}}">Delete</a>
+                                        {% if patient.blacklisted %}
+                                            <a class="btn btn-secondary" href="{{ url_for('admin.blacklist', id=patient.id, role='patient') }}">Blacklisted</a>
+                                        {% else %}
+                                            <a class="btn btn-primary" href="{{ url_for('admin.blacklist', id=patient.id, role='patient') }}">Blacklist</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card border-light-subtle shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4 d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">Upcoming Appointments</h3>
+                        <h4 class="h5 mb-0">Total Upcoming Appointments: {{ upcoming_details|length }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Patient Name</th>
+                                        <th>Doctor Name</th>
+                                        <th>Department</th>
+                                        <th>Patient History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in upcoming_details %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ appointment.patient_name }}</td>
+                                        <td>{{ appointment.doctor_name }}</td>
+                                        <td>{{ appointment.department }}</td>
+                                        <td>
+                                            <a class="btn btn-success" href="{{ url_for('admin.view', appointment_id=appointment.id) }}">View</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            
+            <div class="card border-light-subtle shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h3 class="h5 mb-0">Previous Appointments</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Patient Name</th>
+                                        <th>Doctor Name</th>
+                                        <th>Department</th>
+                                        <th>Patient History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in previous_details %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ appointment.patient_name }}</td>
+                                        <td>{{ appointment.doctor_name }}</td>
+                                        <td>{{ appointment.department }}</td>
+                                        <td>
+                                            <a class="btn btn-success" href="{{ url_for('admin.view', appointment_id=appointment.id) }}">View</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div> </div> 
+{% endblock %}

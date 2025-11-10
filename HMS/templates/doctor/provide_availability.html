@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Provide Availability {% endblock %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="h4 mb-4">Doctor's Availability</h2>
+                    
+                    <form method="POST" action="" novalidate>
+                        {{ form.hidden_tag() }} 
+                        {% for day_form in form.days %}
+                        <div class="row g-2 align-items-center mb-2">
+                            
+                            <div class="col-md-4">
+                                <div class="p-2 border rounded text-center bg-light">
+                                    <strong>{{ day_form.date_display.data }}</strong>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                {{ day_form.morning_slot(class="btn-check") }}
+                                {{ day_form.morning_slot.label(class="btn btn-outline-success w-100") }}
+                            </div>
+                            
+                            <div class="col-md-4">
+                                {{ day_form.evening_slot(class="btn-check") }}
+                                {{ day_form.evening_slot.label(class="btn btn-outline-success w-100") }}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="d-flex justify-content-end mt-4">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
