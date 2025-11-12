@@ -39,7 +39,7 @@ login_manager.login_message_category = "info"
 def create_app():
     
     app = Flask(__name__, template_folder ='templates') 
-    app.config['SECRET_KEY'] = 'supersecretkey'
+    app.config['SECRET_KEY'] = '43e823a1b2eebb7b1c9c104a54b2b52e0fe8e04c'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///./{DB_NAME}'
 
     db.init_app(app)
